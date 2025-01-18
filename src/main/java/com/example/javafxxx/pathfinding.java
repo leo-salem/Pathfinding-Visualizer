@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.*;
-
+//gfsdgasg
 public class pathfinding extends Application {
 
     private static final int CELL_SIZE = 15; // Smaller grid cells
