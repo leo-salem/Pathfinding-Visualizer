@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
 import java.util.Random;
 
 public class BuildUI {
@@ -20,7 +19,7 @@ public class BuildUI {
     public int startX = -1, startY = -1, endX = -1, endY = -1;
 
     public Label pathStatus, pathCostLabel, startStatus, endStatus;
-    public Button submitStartButton, submitEndButton, submitWallButton, bfsButton, dfsButton, dijkstraButton;
+    public Button submitStartButton, submitEndButton, submitWallButton,stopWallButton, bfsButton, dfsButton, dijkstraButton;
     public Canvas canvas;
     public GraphicsContext gc;
 
@@ -51,6 +50,7 @@ public class BuildUI {
         submitStartButton = new Button("Submit Start Cell");
         submitEndButton = new Button("Submit Destination Cell");
         submitWallButton = new Button("Submit Wall Cell");
+        stopWallButton= new Button("Stop Wall Cell");
         bfsButton = new Button("Run BFS");
         dfsButton = new Button("Run DFS");
         dijkstraButton = new Button("Run Dijkstra");
@@ -60,7 +60,7 @@ public class BuildUI {
 
         // Layout
         VBox leftPanel = new VBox(10, pathStatus, pathCostLabel, startStatus, endStatus,
-                submitStartButton, submitEndButton, submitWallButton, bfsButton, dfsButton, dijkstraButton);
+                submitStartButton, submitEndButton, submitWallButton,stopWallButton, bfsButton, dfsButton, dijkstraButton);
         leftPanel.setPadding(new Insets(10));
 
         return new HBox(leftPanel, canvas);
@@ -95,14 +95,24 @@ public class BuildUI {
         });
 
         submitWallButton.setOnAction(e -> {
+            // Set mouse click handler for the canvas
             canvas.setOnMouseClicked(event -> {
                 int wallX = (int) (event.getX() / CELL_SIZE);
                 int wallY = (int) (event.getY() / CELL_SIZE);
-                grid[wallX][wallY] = 1;
-                gc.setFill(Color.BLACK);
-                gc.fillRect(wallX * CELL_SIZE, wallY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+                // Check if the clicked cell is within bounds and not already a wall
+                if (wallX >= 0 && wallX < COLS && wallY >= 0 && wallY < ROWS && grid[wallX][wallY] != 1) {
+                    grid[wallX][wallY] = 1; // Mark the cell as a wall in the grid
+                    gc.setFill(Color.BLACK); // Set the fill color to black for wall cells
+                    gc.fillRect(wallX * CELL_SIZE, wallY * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Draw the wall cell
+                }
             });
         });
+
+        stopWallButton.setOnAction(e -> {
+            canvas.setOnMouseClicked(null); // Disable further marking of wall cells
+        });
+
 
         bfsButton.setOnAction(e -> algorithms.runBFS(gc));
         dfsButton.setOnAction(e -> algorithms.runDFS(gc));
