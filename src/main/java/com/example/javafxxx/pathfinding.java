@@ -18,6 +18,7 @@ public class pathfinding extends Application {
         // Configure the primary stage
         Scene scene = new Scene(layout);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
         primaryStage.setTitle("Pathfinding Visualizer");
         primaryStage.show();
     }
