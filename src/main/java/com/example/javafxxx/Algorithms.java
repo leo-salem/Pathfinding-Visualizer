@@ -26,7 +26,7 @@ public class Algorithms {
                 Queue<cell> queue = new LinkedList<>();
                 Map<cell, cell> parentMap = new HashMap<>();
                 queue.add(new cell(ui.startX, ui.startY));
-                visited[ui.startY][ui.startX] = true;
+                visited[ui.startX][ui.startY] = true;
 
                 int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
                 boolean pathFound = false;
@@ -55,7 +55,7 @@ public class Algorithms {
                         int ny = y + direction[1];
 
                         if (isValidCell(nx, ny, visited)) {
-                            visited[ny][nx] = true;
+                            visited[nx][ny] = true;
                             queue.add(new cell(nx, ny));
                             parentMap.put(new cell(nx, ny), current);
                         }
@@ -134,7 +134,7 @@ public class Algorithms {
             return true;
         }
 
-        visited[y][x] = true;
+        visited[x][y] = true;
 
         // Visualize the current cell
         Platform.runLater(() -> {
