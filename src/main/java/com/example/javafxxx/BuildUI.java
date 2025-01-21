@@ -5,15 +5,16 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import java.util.Random;
 
 public class BuildUI {
-    public static final int CELL_SIZE = 15;
-    public static final int ROWS = 30;
-    public static final int COLS = 50;
+    public static final int CELL_SIZE = 20;
+    public static final int ROWS = 35;
+    public static final int COLS = 35;
     public int[][] grid = new int[ROWS][COLS];
     public int[][] weights = new int[ROWS][COLS];
     public int startX = -1, startY = -1, endX = -1, endY = -1;
@@ -59,18 +60,18 @@ public class BuildUI {
         configureActions(algorithms);
 
         // Layout
-        VBox leftPanel = new VBox(10, pathStatus, pathCostLabel, startStatus, endStatus,
+        VBox leftPanel = new VBox(20, pathStatus, pathCostLabel, startStatus, endStatus,
                 submitStartButton, submitEndButton, submitWallButton,stopWallButton, bfsButton, dfsButton, dijkstraButton);
         leftPanel.setPadding(new Insets(10));
-
+        leftPanel.setStyle("-fx-border-color-: white; -fx-border-style: solid; -fx-background-color: black");
         return new HBox(leftPanel, canvas);
     }
 
     private void styleLabels() {
-        pathStatus.setStyle("-fx-font-size: 16px; -fx-text-fill: brown;");
-        pathCostLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: brown;");
-        startStatus.setStyle("-fx-font-size: 14px;");
-        endStatus.setStyle("-fx-font-size: 14px;");
+        pathStatus.setStyle("-fx-font-size: 16px; -fx-text-fill: white;");
+        pathCostLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: blue;");
+        startStatus.setStyle("-fx-font-size: 14px;-fx-text-fill: green;");
+        endStatus.setStyle("-fx-font-size: 14px;-fx-text-fill: red");
     }
 
     private void configureActions(Algorithms algorithms) {
@@ -131,10 +132,10 @@ public class BuildUI {
 
     public void drawWeights() {
         gc.setFill(Color.BLACK);
-        gc.setFont(javafx.scene.text.Font.font(8));
+        gc.setFont(javafx.scene.text.Font.font(12));
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLS; j++) {
-                gc.fillText(String.valueOf(weights[i][j]), j * CELL_SIZE + 3, i * CELL_SIZE + 12);
+                gc.fillText(String.valueOf(weights[i][j]), i * CELL_SIZE + 3, j * CELL_SIZE + 12);
             }
         }
     }
